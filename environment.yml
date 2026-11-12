@@ -1,0 +1,22 @@
+name: opencap
+channels:
+  - opensim-org
+  - conda-forge
+dependencies:
+  - python=3.11
+  - opensim=4.5=py311np123
+  - pip
+  - pip:
+      - streamlit
+      - scipy==1.10.0
+      - pandas
+      - matplotlib
+      - ipython
+      - python-decouple
+      - maskpass==0.3.6
+      - requests
+      - casadi
+      - pyyaml
+      - joblib
+      - cmake
+      - seaborn
