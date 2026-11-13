@@ -2,3 +2,6 @@ libgl1
 libglu1-mesa
 cmake
 build-essential
+libopenblas-dev
+liblapack-dev
+libgfortran5
