@@ -65,9 +65,6 @@ def FullProcess(sessionID, trialName):
     # Set session path.
     sessionDir = os.path.join(baseDir, f"OpenCapData_{sessionID}")
     
-    # # Download data. Only works if logged into the same OpenCap account as the desired session
-    # trialName = download_trial(trial_id,sessionDir,session_id=sessionID) 
-    
     # Init gait analysis.
     gait_r = ga(
         sessionDir, trialName, leg='r',
