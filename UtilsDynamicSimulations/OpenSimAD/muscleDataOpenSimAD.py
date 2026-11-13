@@ -181,7 +181,7 @@ def get_mtu_length_and_moment_arm(pathModel, data, coordinates_table,
 def getPolynomialData(loadPolynomialData, pathModelFolder, modelName='', 
                       pathMotionFile4Polynomials='', joints=[],
                       muscles=[], type_bounds_polynomials='default', side='',
-                      nThreads=1, overwritedata4PolynomialFitting=False):
+                      nThreads=None, overwritedata4PolynomialFitting=False):
     
     pathPolynomialData = os.path.join(
         pathModelFolder, '{}_polynomial_{}_{}.npy'.format(
@@ -204,6 +204,13 @@ def getPolynomialData(loadPolynomialData, pathModelFolder, modelName='',
             coordinates_table = list(table.getColumnLabels()) # w/ jointset/...
             data = table.getMatrix().to_numpy() # data in degrees w/o time
             pathModel = os.path.join(pathModelFolder, modelName + '.osim')
+            # Set number of threads.
+            if nThreads == None:
+                nThreads = multiprocessing.cpu_count()-2 # default
+            if nThreads < 1:
+                nThreads = 1
+            elif nThreads > multiprocessing.cpu_count():
+                nThreads = multiprocessing.cpu_count()                
             # Generate muscle tendon lengths and moment arms (in parallel).
             slice_size = int(np.floor(data.shape[0]/nThreads))
             rest = data.shape[0] % nThreads
