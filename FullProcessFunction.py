@@ -262,5 +262,3 @@ def FullProcess(sessionID, trialName):
     dorsiflexors_df   = group_df(['tibant'])
     
     return gait_metrics_df, moments_df, grf_df, hip_extensors_df, hip_abductors_df, hip_flexors_df, hamstrings_df, quadriceps_df, plantarflexors_df, dorsiflexors_df
-
-FullProcess('99d7534a-b172-4908-9d41-2fd47289be97', 'walk1')
