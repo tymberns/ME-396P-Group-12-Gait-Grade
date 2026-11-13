@@ -181,7 +181,7 @@ def get_mtu_length_and_moment_arm(pathModel, data, coordinates_table,
 def getPolynomialData(loadPolynomialData, pathModelFolder, modelName='', 
                       pathMotionFile4Polynomials='', joints=[],
                       muscles=[], type_bounds_polynomials='default', side='',
-                      nThreads=None, overwritedata4PolynomialFitting=False):
+                      nThreads=2, overwritedata4PolynomialFitting=False):
     
     pathPolynomialData = os.path.join(
         pathModelFolder, '{}_polynomial_{}_{}.npy'.format(
