@@ -50,17 +50,19 @@ def list_trials(z):
     pattern = re.compile(r"(?:^|/)OpenSimData/Kinematics/([^/]+)\.mot$")
     return sorted({m.group(1) for n in z.namelist() if (m := pattern.search(n))})
 
-
+SKIP_DIRS = ("/Videos/", "/CalibrationImages/")  # assumed unneeded; if you get a
+                                                # FileNotFoundError naming one of these, remove it
 def safe_extract(z, dest):
     dest = os.path.realpath(dest)
-    if sum(i.file_size for i in z.infolist()) > MAX_MB * 1024 * 1024:
+    members = [m for m in z.infolist()
+               if not any(s in "/" + m.filename for s in SKIP_DIRS)]
+    if sum(m.file_size for m in members) > MAX_MB * 1024 * 1024:
         raise ValueError(f"Archive too large (limit {MAX_MB} MB uncompressed).")
-    for m in z.infolist():
+    for m in members:
         target = os.path.realpath(os.path.join(dest, m.filename))
         if not target.startswith(dest + os.sep):
             raise ValueError("Invalid zip contents.")
-    z.extractall(dest)
-
+    z.extractall(dest, members=members)
 
 def remove_path(p):
     if os.path.islink(p):
