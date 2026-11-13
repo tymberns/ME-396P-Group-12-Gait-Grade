@@ -8,18 +8,15 @@ Created on Tue Nov 10 17:11:32 2026
 
 import os
 import sys
+
+sys.path.append("./")
+sys.path.append("./ActivityAnalyses")
+
 import pandas as pd
 import numpy as np
 from gait_analysis_edited import gait_analysis_edited as ga
-from utilsOpenSimAD import processInputsOpenSimAD
-from mainOpenSimAD import run_tracking
     
 def FullProcess(sessionID, trialName):
-    sys.path.append("./")
-    sys.path.append("./ActivityAnalyses")
-    # from utils import get_trial_id, download_trial
-    # from utilsPlotting import plot_dataframe_with_shading
-    
     # %% Helper Functions
     def read_mot(path):
         # Find the line where the header ends
@@ -142,6 +139,9 @@ def FullProcess(sessionID, trialName):
     sys.path.append(baseDir)
     sys.path.append(opensimADDir)
     
+    from utilsOpenSimAD import processInputsOpenSimAD
+    from mainOpenSimAD import run_tracking
+    
     case = '0' # Change this to compare across settings.
     motion_type = 'walking'
     
@@ -252,7 +252,7 @@ def FullProcess(sessionID, trialName):
     muscles_df = (
         maxmuscles.set_axis(pd.MultiIndex.from_arrays([muscle, side]))
                   .unstack()
-                  .rename(columns={'r': 'Right (Nm)', 'l': 'Left (Nm)'})[['Right (Nm)', 'Left (Nm)']]
+                  .rename(columns={'r': 'Right (N)', 'l': 'Left (N)'})[['Right (N)', 'Left (N)']]
                   .round(2)
     )
     
@@ -265,3 +265,5 @@ def FullProcess(sessionID, trialName):
     dorsiflexors_df   = group_df(['tibant'])
     
     return gait_metrics_df, moments_df, grf_df, hip_extensors_df, hip_abductors_df, hip_flexors_df, hamstrings_df, quadriceps_df, plantarflexors_df, dorsiflexors_df
+
+FullProcess('99d7534a-b172-4908-9d41-2fd47289be97', 'walk1')
